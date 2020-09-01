@@ -1,21 +1,16 @@
 import React from "react";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 import { connect } from "react-redux";
-import phonebookActions from "../../redux/phonebook/phonebookActions";
 import ContactListItem from "../ContactListItem";
 import "./ContactList.css";
 
-function ContactList({ removeItem, contacts }) {
+function ContactList({ contacts }) {
   return (
     <>
       <TransitionGroup component="ul" className="ContactList">
-        {contacts.map(({ name, id, number }) => (
+        {contacts.map(({ id }) => (
           <CSSTransition key={id} timeout={250} classNames="contactListItem">
-            <ContactListItem
-              itemName={name}
-              itemNumber={number}
-              onRemoveItem={() => removeItem(id)}
-            />
+            <ContactListItem id={id} />
           </CSSTransition>
         ))}
       </TransitionGroup>
@@ -31,8 +26,5 @@ const mapStateToProps = (state) => {
     ),
   };
 };
-const mapDispatchToProps = (dispatch) => ({
-  removeItem: (id) => dispatch(phonebookActions.deleteItem(id)),
-});
 
-export default connect(mapStateToProps, mapDispatchToProps)(ContactList);
+export default connect(mapStateToProps)(ContactList);
